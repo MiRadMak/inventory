@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-3xl font-semibold text-primary-100 mb-2">Добавить оборудование</h1>
+        <p class="text-primary-400">Заполните информацию о новом оборудовании</p>
+    </div>
+
+    <div class="glass-morph subtle-shadow rounded-2xl p-8 border border-primary-700/30">
+        <form method="post" class="space-y-6">
+            <div>
+                <h3 class="text-lg font-semibold text-primary-100 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Основная информация
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-primary-300 mb-2">Название *</label>
+                        <input type="text" name="name" required
+                               class="w-full px-4 py-3 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200"
+                               placeholder="Например: Сервер Dell R740">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-primary-300 mb-2">Модель</label>
+                        <input type="text" name="model"
+                               class="w-full px-4 py-3 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200"
+                               placeholder="Например: PowerEdge R740">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-primary-300 mb-2">Тип</label>
+                        <select name="type" class="w-full px-4 py-3 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200">
+                            <option value="">Выберите тип</option>
+                            <option value="Сервер">Сервер</option>
+                            <option value="Компьютер">Компьютер</option>
+                            <option value="Ноутбук">Ноутбук</option>
+                            <option value="Принтер">Принтер</option>
+                            <option value="Сетевое оборудование">Сетевое оборудование</option>
+                            <option value="ИБП">ИБП</option>
+                            <option value="Монитор">Монитор</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-primary-300 mb-2">Местоположение</label>
+                        <input type="text" name="location"
+                               class="w-full px-4 py-3 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200"
+                               placeholder="Например: Серверная 301">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold text-primary-100 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Дополнительная информация
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-primary-300 mb-2">Статус</label>
+                        <select name="status" class="w-full px-4 py-3 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200">
+                            <option value="Активно">Активно</option>
+                            <option value="Неактивно">Неактивно</option>
+                            <option value="На обслуживании">На обслуживании</option>
+                            <option value="Ремонт">Ремонт</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-primary-300 mb-2">Инвентарный номер</label>
+                        <input type="text" name="inventory_number"
+                               class="w-full px-4 py-3 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200"
+                               placeholder="Например: INV-2024-001">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-primary-300 mb-2">IP-адрес</label>
+                        <input type="text" name="ip_address"
+                               class="w-full px-4 py-3 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200"
+                               placeholder="Например: 192.168.1.100">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-primary-300 mb-2">Серийный номер</label>
+                        <input type="text" name="serial_number"
+                               class="w-full px-4 py-3 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200"
+                               placeholder="Серийный номер оборудования">
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-primary-300 mb-2">Описание</label>
+                <textarea name="description" rows="4"
+                          class="w-full px-4 py-3 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200"
+                          placeholder="Дополнительная информация об оборудовании..."></textarea>
+            </div>
+
+            <div class="flex gap-4 pt-6 border-t border-primary-700/30">
+                <button type="submit"
+                        class="px-8 py-3 bg-gradient-to-r from-primary-700 to-primary-600 hover:from-primary-600 hover:to-primary-500 text-primary-50 font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02]">
+                    Сохранить оборудование
+                </button>
+                <a href="{{ url_for('main.equipment') }}"
+                   class="px-8 py-3 bg-primary-800/50 hover:bg-primary-700/50 text-primary-200 border border-primary-700/50 rounded-xl transition-all duration-200">
+                    Отмена
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

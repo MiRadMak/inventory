@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-full bg-gray-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}IT Inventory · Система управления{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        .glass-morph {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar-glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .subtle-shadow {
+            box-shadow:
+                0 4px 24px 0 rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.04);
+        }
+    </style>
+</head>
+<body class="h-full bg-gradient-to-br from-gray-900 via-primary-900 to-gray-900 text-primary-100 font-sans">
+
+<div class="fixed inset-y-0 left-0 z-50 w-80 sidebar-glass transform -translate-x-full lg:translate-x-0 transition-all duration-300 ease-in-out" id="sidebar">
+    <div class="flex items-center gap-4 p-6 border-b border-primary-700/30">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-700 to-primary-800 flex items-center justify-center border border-primary-600/30">
+            <svg class="w-6 h-6 text-primary-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
+            </svg>
+        </div>
+        <div>
+            <h1 class="text-xl font-semibold text-primary-100">IT Inventory</h1>
+            <p class="text-primary-400 text-sm">Управление оборудованием</p>
+        </div>
+    </div>
+
+    <nav class="p-6 space-y-2">
+        <a href="{{ url_for('main.dashboard') }}"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary-200 hover:bg-primary-800/50 hover:text-primary-100 transition-all duration-200 {{ 'bg-primary-800/60 text-primary-100 border-l-2 border-primary-500' if request.endpoint == 'main.dashboard' else '' }}">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            <span>Дашборд</span>
+        </a>
+
+        <a href="{{ url_for('main.equipment') }}"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary-200 hover:bg-primary-800/50 hover:text-primary-100 transition-all duration-200 {{ 'bg-primary-800/60 text-primary-100 border-l-2 border-primary-500' if request.endpoint == 'main.equipment' else '' }}">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+            </svg>
+            <span>Оборудование</span>
+        </a>
+
+        {% if current_user.role == 'admin' %}
+        <a href="{{ url_for('main.add_equipment') }}"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary-200 hover:bg-primary-800/50 hover:text-primary-100 transition-all duration-200 {{ 'bg-primary-800/60 text-primary-100 border-l-2 border-primary-500' if request.endpoint == 'main.add_equipment' else '' }}">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
+            </svg>
+            <span>Добавить оборудование</span>
+        </a>
+        {% endif %}
+
+        <a href="{{ url_for('main.maintenance') }}"
+           class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary-200 hover:bg-primary-800/50 hover:text-primary-100 transition-all duration-200">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>Обслуживание</span>
+        </a>
+    </nav>
+</div>
+
+<div class="lg:ml-80 min-h-screen flex flex-col">
+    <!-- Top Bar -->
+    <header class="glass-morph subtle-shadow border-b border-primary-700/30 sticky top-0 z-40">
+        <div class="flex items-center justify-between px-8 py-4">
+            <!-- Mobile Menu Button -->
+            <button class="lg:hidden p-2 rounded-lg hover:bg-primary-800/50 transition-colors duration-200"
+                    onclick="document.getElementById('sidebar').classList.toggle('-translate-x-full')">
+                <svg class="w-6 h-6 text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+
+            <div class="flex-1 max-w-2xl mx-8">
+                <div class="relative">
+                    <input type="text" placeholder="Поиск оборудования..."
+                           class="w-full px-4 py-3 pl-12 bg-primary-800/30 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200">
+                    <svg class="w-5 h-5 absolute left-4 top-3.5 text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- User Info -->
+            <div class="flex items-center gap-4">
+                <div class="text-right">
+                    <div class="text-sm font-medium text-primary-100">{{ current_user.username }}</div>
+                    <div class="text-xs text-primary-400 capitalize">{{ current_user.role }}</div>
+                </div>
+                <a href="{{ url_for('auth.logout') }}"
+                   class="p-2 rounded-lg hover:bg-primary-800/50 transition-colors duration-200 group"
+                   title="Выйти">
+                    <svg class="w-5 h-5 text-primary-400 group-hover:text-primary-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="max-w-6xl mx-auto mt-6 px-8">
+                {% for category, message in messages %}
+                    <div class="glass-morph rounded-xl p-4 mb-4 border {{ 'border-green-500/30 bg-green-500/10' if category == 'success' else 'border-red-500/30 bg-red-500/10' if category == 'error' else 'border-primary-600/30' }}">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 {{ 'text-green-400' if category == 'success' else 'text-red-400' if category == 'error' else 'text-primary-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                {% if category == 'success' %}
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                {% elif category == 'error' %}
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                {% else %}
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                {% endif %}
+                            </svg>
+                            <span class="text-primary-100">{{ message }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main class="flex-1 p-8">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('[class*="glass-morph"] .flex.items-center.gap-3');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.parentElement.style.opacity = '0';
+                alert.parentElement.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => alert.parentElement.remove(), 500);
+            }, 5000);
+        });
+    });
+</script>
+</body>
+</html>

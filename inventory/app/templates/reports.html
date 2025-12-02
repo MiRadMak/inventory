@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="mb-8">
+        <h1 class="text-3xl font-semibold text-primary-100 mb-2">Отчеты и аналитика</h1>
+        <p class="text-primary-400">Статистика и аналитические данные по оборудованию</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="glass-morph subtle-shadow rounded-2xl p-6 border border-primary-700/30">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-primary-100">{{ equipment_by_category.values()|sum }}</div>
+                    <div class="text-sm text-primary-400">Всего оборудования</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-morph subtle-shadow rounded-2xl p-6 border border-primary-700/30">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-green-500/20 border border-green-500/30 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-primary-100">{{ equipment_by_status.get('Активно', 0) }}</div>
+                    <div class="text-sm text-primary-400">Активное оборудование</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-morph subtle-shadow rounded-2xl p-6 border border-primary-700/30">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-primary-100">{{ equipment_by_status.get('На обслуживании', 0) }}</div>
+                    <div class="text-sm text-primary-400">На обслуживании</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-morph subtle-shadow rounded-2xl p-6 border border-primary-700/30">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"/>
+                    </svg>
+                </div>
+                <div>
+                    <div class="text-2xl font-bold text-primary-100">{{ "%.2f"|format(total_value) }} ₽</div>
+                    <div class="text-sm text-primary-400">Общая стоимость</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="glass-morph subtle-shadow rounded-2xl border border-primary-700/30">
+            <div class="p-6 border-b border-primary-700/30">
+                <h3 class="text-lg font-semibold text-primary-100">Оборудование по категориям</h3>
+            </div>
+            <div class="p-6">
+                {% if equipment_by_category %}
+                    <div class="space-y-4">
+                        {% for category, count in equipment_by_category.items() %}
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                                <span class="text-primary-200">{{ category or 'Без категории' }}</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-primary-300 font-medium">{{ count }}</span>
+                                <span class="text-primary-400 text-sm">
+                                    ({{ "%.1f"|format((count / equipment_by_category.values()|sum * 100)) }}%)
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-8">
+                        <svg class="w-12 h-12 text-primary-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        <p class="text-primary-400">Данные для отчета отсутствуют</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="glass-morph subtle-shadow rounded-2xl border border-primary-700/30">
+            <div class="p-6 border-b border-primary-700/30">
+                <h3 class="text-lg font-semibold text-primary-100">Оборудование по статусам</h3>
+            </div>
+            <div class="p-6">
+                {% if equipment_by_status %}
+                    <div class="space-y-4">
+                        {% for status, count in equipment_by_status.items() %}
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                {% if status == 'Активно' %}
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                {% elif 'обслужив' in (status or '')|lower %}
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                {% else %}
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                {% endif %}
+                                <span class="text-primary-200">{{ status or 'Не указан' }}</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-primary-300 font-medium">{{ count }}</span>
+                                <span class="text-primary-400 text-sm">
+                                    ({{ "%.1f"|format((count / equipment_by_status.values()|sum * 100)) }}%)
+                                </span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-8">
+                        <svg class="w-12 h-12 text-primary-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <p class="text-primary-400">Данные для отчета отсутствуют</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="glass-morph subtle-shadow rounded-2xl border border-primary-700/30">
+            <div class="p-6 border-b border-primary-700/30">
+                <h3 class="text-lg font-semibold text-primary-100">Статистика обслуживания</h3>
+            </div>
+            <div class="p-6">
+                {% if maintenance_stats %}
+                    <div class="space-y-4">
+                        {% for type, count in maintenance_stats.items() %}
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 rounded-full bg-purple-500"></div>
+                                <span class="text-primary-200">{{ type or 'Не указан' }}</span>
+                            </div>
+                            <span class="text-primary-300 font-medium">{{ count }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center py-8">
+                        <svg class="w-12 h-12 text-primary-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        </svg>
+                        <p class="text-primary-400">Записи обслуживания отсутствуют</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="glass-morph subtle-shadow rounded-2xl border border-primary-700/30">
+            <div class="p-6 border-b border-primary-700/30">
+                <h3 class="text-lg font-semibold text-primary-100">Экспорт отчетов</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between p-4 bg-primary-800/30 rounded-xl border border-primary-700/30">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <span class="text-primary-200">Полный отчет по оборудованию</span>
+                        </div>
+                        <button class="px-4 py-2 bg-primary-700 hover:bg-primary-600 text-primary-100 rounded-lg border border-primary-600/30 transition-colors duration-200 text-sm">
+                            PDF
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-between p-4 bg-primary-800/30 rounded-xl border border-primary-700/30">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <span class="text-primary-200">Отчет по обслуживанию</span>
+                        </div>
+                        <button class="px-4 py-2 bg-primary-700 hover:bg-primary-600 text-primary-100 rounded-lg border border-primary-600/30 transition-colors duration-200 text-sm">
+                            Excel
+                        </button>
+                    </div>
+
+                    <div class="flex items-center justify-between p-4 bg-primary-800/30 rounded-xl border border-primary-700/30">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                            <span class="text-primary-200">Финансовый отчет</span>
+                        </div>
+                        <button class="px-4 py-2 bg-primary-700 hover:bg-primary-600 text-primary-100 rounded-lg border border-primary-600/30 transition-colors duration-200 text-sm">
+                            CSV
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

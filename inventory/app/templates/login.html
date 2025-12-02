@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru" class="h-full bg-gray-900">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход · IT Inventory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-morph {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .subtle-glow {
+            box-shadow:
+                0 8px 32px 0 rgba(0, 0, 0, 0.36),
+                0 0 0 1px rgba(255, 255, 255, 0.04);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="fixed inset-0 -z-10">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-primary-900 to-gray-900"></div>
+        <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-primary-800/10 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-64 h-64 bg-primary-700/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary-600/5 rounded-full blur-3xl"></div>
+    </div>
+
+    <div class="glass-morph subtle-glow rounded-2xl p-12 w-full max-w-md">
+        <div class="text-center mb-12">
+            <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-primary-700 to-primary-800 flex items-center justify-center border border-primary-600/30">
+                <svg class="w-10 h-10 text-primary-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+            </div>
+            <h1 class="text-3xl font-semibold text-primary-100 mb-3">IT Inventory</h1>
+            <p class="text-primary-400 text-lg">Система управления оборудованием</p>
+        </div>
+
+        <form method="post" class="space-y-6">
+            <div>
+                <input type="text" name="username" placeholder="Имя пользователя"
+                       class="w-full px-4 py-4 bg-primary-800/50 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200"
+                       required autofocus>
+            </div>
+
+            <div>
+                <input type="password" name="password" placeholder="Пароль"
+                       class="w-full px-4 py-4 bg-primary-800/50 border border-primary-700/50 rounded-xl text-primary-100 placeholder-primary-400 focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-all duration-200"
+                       required>
+            </div>
+
+            <button type="submit"
+                    class="w-full py-4 px-4 bg-gradient-to-r from-primary-700 to-primary-600 hover:from-primary-600 hover:to-primary-500 text-primary-50 font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-primary-900 border border-primary-600/30">
+                Войти в систему
+            </button>
+        </form>
+
+        <div class="mt-8 p-4 bg-primary-800/30 rounded-xl border border-primary-700/30">
+            <p class="text-primary-400 text-sm text-center mb-2">Тестовые аккаунты:</p>
+            <div class="text-primary-300 text-sm text-center space-y-1">
+                <p>Администратор: <span class="text-primary-200">admin / admin123</span></p>
+                <p>Пользователь: <span class="text-primary-200">user / user123</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2">
+        <p class="text-primary-500 text-sm">Система инвентаризации ИТ-оборудования</p>
+    </div>
+</body>
+</html>
